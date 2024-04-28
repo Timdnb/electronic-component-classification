@@ -1,3 +1,4 @@
 # hide dataset
 /dataset/*
 /components/*
+__pycache__/*
