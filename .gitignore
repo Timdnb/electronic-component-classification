@@ -3,3 +3,4 @@
 /components/*
 *.pt
 *.csv
+__pycache__/*
