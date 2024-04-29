@@ -1,3 +1,5 @@
 # hide dataset
 /dataset/*
 /components/*
+*.pt
+*.csv
