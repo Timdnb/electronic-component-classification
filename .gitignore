@@ -4,3 +4,6 @@
 *.pt
 *.csv
 __pycache__/*
+t_junction.jpg
+.ipynb_checkpoints
+
