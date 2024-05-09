@@ -18,18 +18,23 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-# title: Electronic Component Classification
+title: Electronic Component Classification
 # email: timdnblanken@gmail.com
-# description: >- # this means to ignore newlines until "baseurl:"
-#   Blog post about the classification of electronic components from
-#   hand drawn sketches.
+description: >- # this means to ignore newlines until "baseurl:"
+  Blog post about the classification of electronic components from
+  hand drawn sketches.
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: jekyllrb
 # github_username:  jekyll
 
-# Build settings
-theme: jekyll-theme-architect
+# # Build settings
+# theme: jekyll-theme-tactile
+# plugins:
+#   - jekyll-feed
+remote_theme: pages-themes/architect@v0.2.0
+plugins:
+  - jekyll-remote-theme # add this line to the plugins list if you already have one
 
 # Exclude from processing.
 # The following items will not be processed, by default.
