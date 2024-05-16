@@ -48,5 +48,5 @@ EXPERIMENTAL QUESTIONS: How do you evaluate experimentally that (4) solves the p
 - If time and resources allow, the components are connected with lines digitally too
 - Creating neat and complete digital versions of electronic ciruict sketches
 
-# Note from Tim
+### Note from Tim
 almost done imo, cleaned it up a bit and added a few things. the only thing we might want to change is better emphasize that our first goal is to classify components and junctions and that if we have time we will also create a digital version
