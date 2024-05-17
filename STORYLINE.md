@@ -40,7 +40,7 @@ WHAT IS MISSING: What’s the problem in (2), and what consequences does this ha
 PROPOSED SOLUTION: What do you do, and why does it solve the problem in (3)
 - To solve the problem we will create custom datasets for components and junctions
 - We will train eiter one classifier using YOLO to detect both components and junctions or two classifiers, one for components and one for junctions in series
-- We will also try to "detect" lines. This might be done by connecting components and junctions in a line.
+- We will also try to draw connection lines between the components and junctions.
 
 EXPERIMENTAL QUESTIONS: How do you evaluate experimentally that (4) solves the problem in (2) and it’s consequences in (3).
 - The solution is succesful if it can detect and classify all components and junctions
