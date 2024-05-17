@@ -34,13 +34,13 @@ HOW DONE NOW: The typical approach(es) to the setting in (1)
 WHAT IS MISSING: What’s the problem in (2), and what consequences does this have.
 - Lines are currently NOT being detected
 - There is NO knowlege about how components are connected to each other
-- The current classifiers merely classify the components
+- The current classifiers merely classify the components and junctions
 - This means the circuit needs to be digitally created by hand anyways
 
 PROPOSED SOLUTION: What do you do, and why does it solve the problem in (3)
 - To solve the problem we will create custom datasets for components and junctions
-- We will train a classifier using YOLO to detect both components and junctions
-- We will also try to detect lines. This might be done with or without a neural network
+- We will train eiter one classifier using YOLO to detect both components and junctions or two classifiers, one for components and one for junctions in series
+- We will also try to "detect" lines. This might be done by connecting components and junctions in a line.
 
 EXPERIMENTAL QUESTIONS: How do you evaluate experimentally that (4) solves the problem in (2) and it’s consequences in (3).
 - The solution is succesful if it can detect and classify all components and junctions
