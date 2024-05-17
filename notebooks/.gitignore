@@ -1,0 +1,9 @@
+# hide dataset
+/dataset/*
+/components/*
+*.pt
+*.csv
+__pycache__/*
+t_junction.jpg
+.ipynb_checkpoints
+
