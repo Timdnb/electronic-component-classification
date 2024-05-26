@@ -104,20 +104,20 @@ def remove_overlapping_junctions(j_results, c_results, overlap_threshold=0.1):
     return c_coords, j_coords
 
 # Perform non-maximum suppression
-def non_max_suppression_fast(j_coords, iou_threshold=0.5):
-    """ Apply non-maximum suppression to the coordinates of the junctions
+def non_max_suppression_fast(coords, iou_threshold=0.5):
+    """ Apply non-maximum suppression to the coordinates of junctions or components
     Args:
-        j_coords (list): List of coordinates of junctions with confidence scores and class labels
+        coords (list): List of coordinates with confidence scores and class labels
         iou_threshold (float): Intersection over Union (IoU) threshold
     Returns:
-        list: List of coordinates of junctions after non-maximum suppression with confidence scores and class labels
+        list: List of coordinates after non-maximum suppression with confidence scores and class labels
     """
-    if len(j_coords) == 0:
+    if len(coords) == 0:
         return []
     
     # Transform the coordinates into a numpy array
-    boxes = np.array([[x1, y1, x2, y2] for x1, y1, x2, y2, score, label in j_coords])
-    scores = np.array([score for x1, y1, x2, y2, score, label in j_coords])
+    boxes = np.array([[x1, y1, x2, y2] for x1, y1, x2, y2, score, label in coords])
+    scores = np.array([score for x1, y1, x2, y2, score, label in coords])
 
     x1 = boxes[:, 0]
     y1 = boxes[:, 1]
@@ -151,4 +151,4 @@ def non_max_suppression_fast(j_coords, iou_threshold=0.5):
 
         indices = indices[suppressed_indices + 1]
 
-    return [j_coords[i] for i in keep]
+    return [coords[i] for i in keep]
