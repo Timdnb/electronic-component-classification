@@ -2,6 +2,20 @@
 layout: default
 ---
 
+<!-- PENALTIES FOR BLOG
+- No results, or not enough motivation for why there are no results
+- Not enough effort shown
+- Results are not explained
+- Results are inconsistent and not motivated
+- Insufficient "computer vision" alignment
+- Unclear why an experiment is done (what question is answered by it, and why is this question interesting)
+
+- The text is not stand-alone; it's not peer understandable.
+- Using a term before defining/motivating it.
+- Unclear logical reasoning step.
+- Inconsistent use of terminology.
+- Too much unnecessary detail. -->
+
 **By:** Tim den Blanken, Felipe Bononi Bello, Miquel Rull Trinidad
 
 **Course:** CS4245 - Seminar Computer Vision by Deep Learning
