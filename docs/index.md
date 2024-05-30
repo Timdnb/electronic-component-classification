@@ -67,6 +67,10 @@ metrics
 # Discussion / future work
 what works, what doesnt, what would be the next step, how can it be improved
 
+leads to future improvements
+- yolo obb (oriented bounding box)
+- more?
+
 # Closing
 Encourage to build on this work, all code is open source and so are the datasets (need to check if I can make components dataset public, maybe it's copyright lol) and models
 
