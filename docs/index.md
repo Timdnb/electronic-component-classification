@@ -20,30 +20,30 @@ layout: default
 
 **Course:** CS4245 - Seminar Computer Vision by Deep Learning
 
-## The idea
+# The idea
 introduction / explain possible usecase / to learn and for fun
 
 with this blogpost we hope to inspire other deep learning projects...
 
-## The data
+# The data
 explain general data necessary and maybe provide some sources, explain why we decided to create own datasets
 
-### Components dataset
+## Components dataset
 explain data(set), why this data, link to dataset?
 labeling procedure
 show sample + labels
 explain which notebook used for reference
 
-### Junctions dataset
+## Junctions dataset
 explain data(sets), why this data, link to dataset?
 labeling procedure
 show sample + labels
 explain which notebook used for reference
 
-## Training
+# Training
 which model, epochs, rotations (in)variance, other considerations
 
-## Pipeline explanation
+# Pipeline explanation
 image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
 
 explain why this pipeline and other considerations that we had (e.g. that we first wanted to delete components and then detect junctions)
@@ -52,7 +52,7 @@ upload models to huggingface (or similar) and add links
 
 for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything
 
-## Results
+# Results
 couple sample images with results
 - one complicated circuit
 - sheet with one of every component?
@@ -64,10 +64,10 @@ then couple examples of poor performance
 metrics
 - model performance on test set?
 
-## Discussion / future work
+# Discussion / future work
 what works, what doesnt, what would be the next step, how can it be improved
 
-## Closing
+# Closing
 Encourage to build on this work, all code is open source and so are the datasets (need to check if I can make components dataset public, maybe it's copyright lol) and models
 
 Thank TA
