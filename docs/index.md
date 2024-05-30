@@ -2,7 +2,63 @@
 layout: default
 ---
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+**By:** Tim den Blanken, Felipe Bononi Bello, Miquel Rull Trinidad
+
+**Course:** CS4245 - Seminar Computer Vision by Deep Learning
+
+## The idea
+introduction / explain possible usecase / to learn and for fun
+
+with this blogpost we hope to inspire other deep learning projects...
+
+## The data
+explain general data necessary and maybe provide some sources, explain why we decided to create own datasets
+
+### Components dataset
+explain data(set), why this data, link to dataset?
+labeling procedure
+show sample + labels
+explain which notebook used for reference
+
+### Junctions dataset
+explain data(sets), why this data, link to dataset?
+labeling procedure
+show sample + labels
+explain which notebook used for reference
+
+## Training
+which model, epochs, rotations (in)variance, other considerations
+
+## Pipeline explanation
+image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
+
+explain why this pipeline and other considerations that we had (e.g. that we first wanted to delete components and then detect junctions)
+
+upload models to huggingface (or similar) and add links
+
+for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything
+
+## Results
+couple sample images with results
+- one complicated circuit
+- sheet with one of every component?
+
+then couple examples of poor performance
+- effect of poor preprocessing (show multiple side to side with diff preprocessing)
+- effect when circuit does not adhere to standards (90 deg turns)
+
+metrics
+- model performance on test set?
+
+## Discussion / future work
+what works, what doesnt, what would be the next step, how can it be improved
+
+## Closing
+Encourage to build on this work, all code is open source and so are the datasets (need to check if I can make components dataset public, maybe it's copyright lol) and models
+
+Thank TA
+
+<!-- Text can be **bold**, _italic_, or ~~strikethrough~~.
 
 [Link to another page](./another-page.html).
 
@@ -120,4 +176,4 @@ Long, single-line code blocks should not wrap. They should horizontally scroll i
 
 ```
 The final element.
-```
+``` -->
