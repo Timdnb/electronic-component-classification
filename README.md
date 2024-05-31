@@ -27,7 +27,7 @@ In the current state the pipeline classifies all components and junctions, howev
 
 Original:
 
-<img src="assets/example_image.jpg" alt="electronic circuit" width="200"/>
+<img src="assets/example_image.jpg" alt="electronic circuit" width="500"/>
 
 Labeled:
 
