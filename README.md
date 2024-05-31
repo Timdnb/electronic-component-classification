@@ -5,6 +5,7 @@ As part of the course CS4245 Seminars Computer Vision by Deep Learning at the De
 First create a virtual environment and install dependencies (tested for Python 3.10.12)
 ```
 git clone git@github.com:Timdnb/electronic-component-classification.git
+cd electronic-component-classification
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
