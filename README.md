@@ -15,7 +15,7 @@ pip install -r requirements.txt
 Take an image of your electronic circuit and store it, then run the following command
 
 ```
-python detect.py --img-path <single-img | img-directory> [--outdir /path/to/outdir]
+python detect.py --img-path <single-img | img-directory> [--outdir <outdir>]
 ```
 Arguments:
 - `--img-path`: can be both a single image or a directory containing images
