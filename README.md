@@ -24,7 +24,7 @@ Arguments:
 After running a window will appear, in this window use the sliders to best extract the lines of your electronic circuit. Once you are satisfied press "Enter" to continue.
 
 ## Inference example
-In the current state the pipeline classifies all components and junctions, however it does not yet convert it to a digital counterpart. This can be a future improvement
+In the current state the pipeline classifies all components and junctions, however it does not yet convert it to a digital counterpart. This can be a future improvement.
 
 Original:
 
