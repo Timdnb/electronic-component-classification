@@ -34,4 +34,4 @@ Labeled:
 <img src="assets/example_image_output.jpg" alt="labeled electronic circuit" width="500"/>
 
 ## Additional information
-The `notebooks` folder contains all notebooks that were used during development, they can be investigated to have a better look into our methods. However one of the notebooks requires the presence of a hand-drawn electronic component dataset from [kaggle](https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components). Download this dataset and put the folders of the separate components under a `dataset/components` directory (make this directory yourself).
+The `notebooks/` folder contains all notebooks that were used during development, they can be investigated to have a better look into our methods. However one of the notebooks requires the presence of a hand-drawn electronic component dataset from [kaggle](https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components). Download this dataset and put the folders of the separate components under a `dataset/components/` directory (make this directory yourself).
