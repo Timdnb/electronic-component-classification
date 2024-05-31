@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-Take an image of your electronic circuit and store it, then run the following command
+To perform inference on your electronic circuit sketch(es), run the following command:
 
 ```
 python detect.py --img-path <single-img | img-directory> [--outdir <outdir>]
