@@ -214,6 +214,7 @@ def non_max_suppression_fast(coords, iou_threshold=0.5):
 # Code for slider
 MAX_WIDTH = 800  # Maximum width of the image display
 MAX_HEIGHT = 800  # Maximum height of the image display
+SLIDER_LENGTH = 200  # Length of the sliders
 
 def apply_transformations(img, contrast, blur, threshold, erode, dilate, invert):
     """ Apply transformations to the input image
@@ -331,23 +332,23 @@ def create_window(image_path):
     img_label.grid(row=0, column=0, rowspan=6)
     
     # Create sliders and checkbox
-    contrast_scale = Scale(root, from_=0.1, to=3.0, resolution=0.1, orient=HORIZONTAL, label="Contrast")
+    contrast_scale = Scale(root, from_=0.1, to=3.0, resolution=0.01, orient=HORIZONTAL, label="Contrast", length=SLIDER_LENGTH)
     contrast_scale.set(1.1)
     contrast_scale.grid(row=0, column=1, padx=10, pady=5)
     
-    blur_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Blur")
+    blur_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Blur", length=SLIDER_LENGTH)
     blur_scale.set(0)
     blur_scale.grid(row=1, column=1, padx=10, pady=5)
     
-    threshold_scale = Scale(root, from_=0, to=255, orient=HORIZONTAL, label="Threshold")
+    threshold_scale = Scale(root, from_=0, to=255, orient=HORIZONTAL, label="Threshold", length=SLIDER_LENGTH)
     threshold_scale.set(127)
     threshold_scale.grid(row=2, column=1, padx=10, pady=5)
     
-    erode_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Erosion")
+    erode_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Erosion", length=SLIDER_LENGTH)
     erode_scale.set(0)
     erode_scale.grid(row=3, column=1, padx=10, pady=5)
     
-    dilate_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Dilation")
+    dilate_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Dilation", length=SLIDER_LENGTH)
     dilate_scale.set(0)
     dilate_scale.grid(row=4, column=1, padx=10, pady=5)
     
