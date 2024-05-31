@@ -17,7 +17,7 @@ if __name__ == '__main__':
     img_path = args.image
 
     # Load image and apply transformations
-    print("Adjust the sliders to apply transformations to the image. Press 'Enter' to continue.")
+    print("Adjust the sliders to apply transformations to the image. Press 'Enter' to continue.\n")
     tf = create_window(img_path)
     img = cv2.imread(img_path)
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -82,4 +82,4 @@ if __name__ == '__main__':
     img_out_path = args.outdir + '/output.jpg'
     cv2.imwrite(img_out_path, img)
 
-    print(f"Output image saved to {img_out_path}")
+    print(f"\nOutput image saved to {img_out_path}")
