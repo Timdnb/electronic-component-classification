@@ -15,11 +15,11 @@ pip install -r requirements.txt
 Take an image of your electronic circuit and store it, then run the following command
 
 ```
-python detect.py --image /path/to/image [--outdir /path/to/outdir]
+python detect.py --img-path <single-img | img-directory> [--outdir /path/to/outdir]
 ```
 Arguments:
-- `--image`: path to your image file
-- `--outdir`: path where you want to output to be stored, this is an optional parameter
+- `--img-path`: can be both a single image or a directory containing images
+- `--outdir`: path where you want the output to be stored, defaults to the same directory as the input image(s)
 
 After running a window will appear, in this window use the sliders to best extract the lines of your electronic circuit. Once you are satisfied press "Enter" to continue.
 
@@ -32,7 +32,7 @@ Original:
 
 Labeled:
 
-<img src="assets/example_image_output.jpg" alt="labeled electronic circuit" width="500"/>
+<img src="assets/example_image_labeled.jpg" alt="labeled electronic circuit" width="500"/>
 
 ## Additional information
 The `notebooks/` folder contains all notebooks that were used during development, they can be investigated to have a better look into our methods. However one of the notebooks requires the presence of a hand-drawn electronic component dataset from [kaggle](https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components). Download this dataset and put the folders of the separate components under a `dataset/components/` directory (make this directory yourself).
