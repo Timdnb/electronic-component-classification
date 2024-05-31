@@ -1,7 +1,11 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
+import cv2
+from tkinter import Tk, Label, Scale, HORIZONTAL, Checkbutton, IntVar
+from PIL import Image, ImageTk
 
+# Helper functions
 def visualize_image(image_path, label_path):
     """ Visualize the image with bounding boxes
 
@@ -53,7 +57,6 @@ def visualize_image(image_path, label_path):
     # Show the plot
     plt.show()
 
-# Remove overlapping junctions
 def remove_overlapping_junctions(j_results, c_results, overlap_threshold=0.1):
     """ Remove junctions that are overlapping with components
 
@@ -103,7 +106,6 @@ def remove_overlapping_junctions(j_results, c_results, overlap_threshold=0.1):
 
     return c_coords, j_coords
 
-# Perform non-maximum suppression
 def non_max_suppression_fast(coords, iou_threshold=0.5):
     """ Apply non-maximum suppression to the coordinates of junctions or components
     Args:
@@ -152,3 +154,163 @@ def non_max_suppression_fast(coords, iou_threshold=0.5):
         indices = indices[suppressed_indices + 1]
 
     return [coords[i] for i in keep]
+
+# Code for slider
+MAX_WIDTH = 800  # Maximum width of the image display
+MAX_HEIGHT = 800  # Maximum height of the image display
+
+def apply_transformations(img, contrast, blur, threshold, erode, dilate, invert):
+    """ Apply transformations to the input image
+
+    Args:
+        img (cv2 image): input image
+        contrast (float): contrast value
+        blur (int): blur value
+        threshold (int): threshold value
+        erode (int): erode value
+        dilate (int): dilate value
+        invert (bool): invert value
+
+    Returns:
+        cv2 image: transformed image
+    """
+    # Apply contrast
+    img = cv2.convertScaleAbs(img, alpha=contrast, beta=0)
+
+    # Apply blur
+    if blur > 0:
+        img = cv2.GaussianBlur(img, (2 * blur + 1, 2 * blur + 1), 0)
+    
+    # Apply threshold
+    _, img = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY)
+    
+    # Apply erosion
+    if erode > 0:
+        kernel = np.ones((2, 2), np.uint8)
+        img = cv2.erode(img, kernel, iterations=erode)
+    
+    # Apply dilation
+    if dilate > 0:
+        kernel = np.ones((2, 2), np.uint8)
+        img = cv2.dilate(img, kernel, iterations=dilate)
+    
+    # Invert image
+    if invert:
+        img = cv2.bitwise_not(img)
+    
+    return img
+
+def resize_image(img, max_width, max_height):
+    """ Resize image for display
+
+    Args:
+        img (cv2 image): input image
+        max_width (int): maximum width
+        max_height (int): maximum height
+
+    Returns:
+        cv2 image: resized image
+    """
+    h, w = img.shape[:2]
+    if h > max_height or w > max_width:
+        scaling_factor = min(max_width / w, max_height / h)
+        new_size = (int(w * scaling_factor), int(h * scaling_factor))
+        img = cv2.resize(img, new_size, interpolation=cv2.INTER_AREA)
+    return img
+
+def update_image():
+    # Get the current values from the sliders and checkbox
+    contrast = contrast_scale.get()
+    blur = blur_scale.get()
+    threshold = threshold_scale.get()
+    erode = erode_scale.get()
+    dilate = dilate_scale.get()
+    invert = invert_var.get()
+    
+    # Apply transformations
+    transformed_img = apply_transformations(gray_img.copy(), contrast, blur, threshold, erode, dilate, invert)
+    
+    # Resize the image to fit within the constraints
+    resized_img = resize_image(transformed_img, MAX_WIDTH, MAX_HEIGHT)
+    
+    # Convert the image to a format suitable for Tkinter
+    img_tk = ImageTk.PhotoImage(image=Image.fromarray(resized_img))
+    
+    # Update the label with the new image
+    img_label.config(image=img_tk)
+    img_label.image = img_tk
+
+def store_and_close(event=None):
+    # Get the final transformation values
+    final_values['contrast'] = contrast_scale.get()
+    final_values['blur'] = blur_scale.get()
+    final_values['threshold'] = threshold_scale.get()
+    final_values['erode'] = erode_scale.get()
+    final_values['dilate'] = dilate_scale.get()
+    final_values['invert'] = invert_var.get()
+    
+    # Close the window
+    root.destroy()
+
+def create_window(image_path):
+    global gray_img, img_label, contrast_scale, blur_scale, threshold_scale, erode_scale, dilate_scale, invert_var, final_values, root
+    
+    final_values = {}
+    
+    # Load the image and convert to grayscale
+    img = cv2.imread(image_path)
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    # Resize the image to fit within the constraints
+    gray_img = resize_image(gray_img, MAX_WIDTH, MAX_HEIGHT)
+    
+    # Create the main window
+    root = Tk()
+    root.title("Image Processing")
+    
+    # Display the initial image
+    img_tk = ImageTk.PhotoImage(image=Image.fromarray(gray_img))
+    img_label = Label(root, image=img_tk)
+    img_label.image = img_tk
+    img_label.grid(row=0, column=0, rowspan=6)
+    
+    # Create sliders and checkbox
+    contrast_scale = Scale(root, from_=0.1, to=3.0, resolution=0.1, orient=HORIZONTAL, label="Contrast")
+    contrast_scale.set(1.1)
+    contrast_scale.grid(row=0, column=1, padx=10, pady=5)
+    
+    blur_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Blur")
+    blur_scale.set(0)
+    blur_scale.grid(row=1, column=1, padx=10, pady=5)
+    
+    threshold_scale = Scale(root, from_=0, to=255, orient=HORIZONTAL, label="Threshold")
+    threshold_scale.set(127)
+    threshold_scale.grid(row=2, column=1, padx=10, pady=5)
+    
+    erode_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Erosion")
+    erode_scale.set(0)
+    erode_scale.grid(row=3, column=1, padx=10, pady=5)
+    
+    dilate_scale = Scale(root, from_=0, to=10, orient=HORIZONTAL, label="Dilation")
+    dilate_scale.set(0)
+    dilate_scale.grid(row=4, column=1, padx=10, pady=5)
+    
+    invert_var = IntVar(value=1)
+    invert_check = Checkbutton(root, text="Invert", variable=invert_var)
+    invert_check.grid(row=5, column=1, padx=10, pady=5)
+    
+    # Update the image when sliders or checkbox change
+    contrast_scale.bind("<Motion>", lambda event: update_image())
+    blur_scale.bind("<Motion>", lambda event: update_image())
+    threshold_scale.bind("<Motion>", lambda event: update_image())
+    erode_scale.bind("<Motion>", lambda event: update_image())
+    dilate_scale.bind("<Motion>", lambda event: update_image())
+    invert_check.bind("<ButtonRelease-1>", lambda event: update_image())
+    
+    # Bind the Enter key to store values and close the window
+    root.bind('<Return>', store_and_close)
+    
+    # Start the Tkinter event loop
+    root.mainloop()
+    
+    return final_values
