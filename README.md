@@ -1,5 +1,5 @@
 # Electronic Circuit Detection
-As part of the course CS4245 Seminars Computer Vision by Deep Learning at the Delft University of Technology, we have developed a pipeline in order to convert sketches of electronic circuit into a labeled image. For a detailed overview of this project, please visit the [blogpost](https://timdnb.github.io/electronic-component-classification/).
+As part of the course CS4245 Seminars Computer Vision by Deep Learning at the Delft University of Technology, we have developed a pipeline in order to convert sketches of electronic circuits into a labeled image. For a detailed overview of this project, please visit the [blogpost](https://timdnb.github.io/electronic-component-classification/).
 
 ## Installation
 First create a virtual environment and install dependencies (tested for Python 3.10.12)
