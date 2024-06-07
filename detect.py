@@ -11,13 +11,13 @@ from tqdm import tqdm
 
 if __name__ == '__main__':
     parset = argparse.ArgumentParser(description='Detect components and junctions in image')
-    parset.add_argument('--image', type=str, help='Path to image', required=True)
+    parset.add_argument('--img-path', type=str, help='Path to image', required=True)
     parset.add_argument('--outdir', type=str, help='Path to output directory')
 
     args = parset.parse_args()
 
     # File and directory paths
-    img_path = args.image
+    img_path = args.img_path
     out_path = args.outdir
 
     if out_path is None and os.path.isfile(img_path):
