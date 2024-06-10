@@ -21,17 +21,20 @@ layout: default
 **Course:** CS4245 - Seminar Computer Vision by Deep Learning
 
 # The idea
-introduction / explain possible usecase / to learn and for fun
+Sketching is one of the most effective ways to communicate ideas. It is a common practice in engineering, where engineers use sketches to communicate their ideas to other engineers, clients, or even to themselves. However, the process of converting these sketches into digital formats is time-consuming and error-prone. In this project, we aim to automate this process by developing a deep learning model that can detect and classify components and junctions in sketches of electronic circuits. 
 
-with this blogpost we hope to inspire other deep learning projects...
+Apart from the practical applications of this project, it also serves as a learning experience for us, and possibly for the reader. This blog post will document our journey from the idea above to the final product. We go over the challenger of working with real-world data, the importance of preprocessing and other intricacies of training deep learning models. We also aim to have fun while working on this project, as we are all passionate about computer vision and deep learning. 
+
+Lastly, we encourage the reader to build on this work. All code is open-source and so are the datasets and models. We hope that this project can inspire other deep learning projects and that it can be used as a learning resource for those interested in computer vision and deep learning.
 
 # The data
-explain general data necessary and maybe provide some sources, explain why we decided to create own datasets
+Since we are looking to classify hand-drawn sketches of electronic circuits, we need a dataset that represents such skethes. However clean and well-annotated datasets for this task are hard to find. We did however find a dataset of hand-drawn electronic components [^1], which are obviously the building blocks of electronic circuits. There is still a difference between classifying a single components or detecting them as part of a circuit. For this reason we decided to create our own dataset using hand-drawn circuits. Since we also want to understand the connections between components, we have also created a dataset that can be used to detect junctions in circuits. Both datasets will be explained in more detail in the next sections.
+
 
 ## Components dataset
-explain data(set), why this data, link to dataset?
-labeling procedure
-show sample + labels
+As mentioned above, we found a dataset of hand-drawn electronic components. This dataset contains 15 classes of components of the arguably the most common components in electronic circuits. The dataset contains about 200 images per class. The next step was to use those to create a dataset that can be used to train a YOLO model, as we want to detect the components. To do this we generate images with the components randomly scattered across. To improve performance we add random lines and shapes to confuse the model, and we apply random noise. The labels are created from the original image of the separate components, however since those were always square with the components not covering the entire image, we had to adjust the labels to fit the new images. This was simply done by finding the edges of the components and adjusting the labels accordingly. After these steps a training sample looks as follows:
+
+
 explain which notebook used for reference
 
 ## Junctions dataset
@@ -75,6 +78,9 @@ leads to future improvements
 Encourage to build on this work, all code is open source and so are the datasets (need to check if I can make components dataset public, maybe it's copyright lol) and models
 
 Thank TA
+
+[^1]: https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components
+
 
 <!-- Text can be **bold**, _italic_, or ~~strikethrough~~.
 
