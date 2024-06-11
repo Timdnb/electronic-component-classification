@@ -31,7 +31,7 @@ Since we are looking to classify hand-drawn sketches of electronic circuits, we 
 ## Components dataset
 As mentioned above, we found a dataset of hand-drawn electronic components. This dataset contains 15 classes of components of the arguably the most common components in electronic circuits. The dataset contains about 200 images per class. The next step was to use those to create a dataset that can be used to train a YOLO model, as we want to detect the components. To do this we generate images with the components randomly scattered across. To improve performance we add random lines and shapes to confuse the model, and we apply random noise. The labels are created from the original image of the separate components, however since those were always square with the components not covering the entire image, we had to adjust the labels to fit the new images. This was simply done by finding the edges of the components and adjusting the labels accordingly. After these steps a training sample looks as follows:
 
-![Components dataset sample](../assets/components_dataset_sample.jpg)
+![Components dataset sample](./assets/components_dataset_sample.jpg)
 
 The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
@@ -44,7 +44,7 @@ explain which notebook used for reference
 # Training
 For the training of the model we have chosen to use the [YOLOv5m](https://github.com/ultralytics/yolov5) model for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 GPUs in Kaggle. The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
 assets\components_model_performance.jpeg.jpeg
-![Components model performance](../assets/components_model_performance.jpeg)
+![Components model performance](/assets/components_model_performance.jpeg)
 
 SAME FOR JUNCTIONS
 
@@ -61,7 +61,7 @@ for testing and investigation (of code) can reference to inference.ipynb, howeve
 
 During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
 
-![Model Pipeline](../assets/parallelpipeline.png)
+![Model Pipeline](assets/parallelpipeline.png)
 
 In order for this pipeline to work the image should be a black or blue drawn circuit on a white page (with no background lines for best performance). This sketch then gets converted into a bitmap and inverted to a black background with white lines where everything above a threshold becomes black and below it becomes white, this value can be tuned depending on the input image.
 
