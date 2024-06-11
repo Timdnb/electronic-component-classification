@@ -42,13 +42,22 @@ show sample + labels (explain label convention with 0s and 1s)
 explain which notebook used for reference
 The junctions dataset uses a different approach. Due to the simplicity of them, and the lack of available datasets, it was decided to generate a synthetic dataset.  
 
-There are 9 types of junctions (4 corners, 4 3-way junctions and 1 4-way junction). These junctions are labeled with 4 zeros or ones. It is a one if there is a line in the corresponding part of the junction. They order is: down, up, left, right. Therefore if a label is 0110, it means the junction joins up and left. To generate each junction, open-cv lines were generated according to the labels, with some randomisation on the angles. 
+There are 9 types of junctions (4 corners, 4 3-way junctions and 1 4-way junction). These junctions are labeled with 4 zeros or ones. It is a one if there is a line in the corresponding part of the junction. They order is: down, up, left, right. Therefore if a label is 0110, it means the junction joins up and left. To generate each junction, open-cv lines were generated according to the labels, with some randomisation on the angles. This is to imitate the human drawings, as most junctions will not be perfect 90 degrees. After generating the lines, gaussian blurr and noise is added. There is further randomisation by making the lines different thicknesses and by varying the size of the junctions from 100 to 300 pixels. Each Junction has been generated 1000 times, for a total of 9000 juntion images. 
+
+![Components model performance](../assets/junctions_grid.jpeg)
+
+
+After generating the juntions, a similar image generator as the components dataset was used. The only difference being that the extra lines were removed, as they can sometimes resemble junctions. In total, 2402 images were generated for training and 503 for validation.  
+
+![Components model performance](../assets/junctions_image.jpeg)
+
 
 
 
 
 
 # Training
+TODO: Explain metrics (mAP50 and 95)  
 For the training of the model we have chosen to use the [YOLOv5m](https://github.com/ultralytics/yolov5) model for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 or a single P100 GPUs  in Kaggle.  
 
 The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
