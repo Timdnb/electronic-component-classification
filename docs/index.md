@@ -33,7 +33,7 @@ As mentioned above, we found a dataset of hand-drawn electronic components. This
 
 ![Components dataset sample](../assets/components_dataset_sample.jpg)
 
-The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository under `notebooks/component_dataset_generation.ipynb`
+The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
 ## Junctions dataset
 explain data(sets), why this data, link to dataset?
@@ -49,7 +49,6 @@ assets\components_model_performance.jpeg.jpeg
 SAME FOR JUNCTIONS
 
 # Pipeline explanation
-
 <!-- image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
 
 explain why this pipeline and other considerations that we had (e.g. that we first wanted to delete components and then detect junctions, also sliders for preprocessing came later since it was hard to have one set of values that just works)
@@ -59,13 +58,14 @@ https://huggingface.co/Timdb/electronic-circuit-detection/tree/main
 ^^ contains both models
 
 for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything -->
-During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. To be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
+
+During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
+
 ![Model Pipeline](../assets/parallelpipeline.png)
 
-In order for this pipeline to work the image should be a black or blue drawn circuit on a white page. Which then gets converted into greyscale and inverted to a black background with white lines where everything above value above a threshold becomes black and below it becomes white, this value p can be tuned depending on the input image.
+In order for this pipeline to work the image should be a black or blue drawn circuit on a white page (with no background lines for best performance). This sketch then gets converted into a bitmap and inverted to a black background with white lines where everything above a threshold becomes black and below it becomes white, this value can be tuned depending on the input image.
 
-Then the first model in the pipeline is the Component Detection Model. It takes the preprocessed image in and outputs the location, size and probability of the classsified components. The second model is the Junction Detection Model. It takes in the preprocessed image and outputs the location, size and probability of the junction. The final models can be found here: 
-https://huggingface.co/Timdb/electronic-circuit-detection/tree/main.
+Then the first model in the pipeline is the component detection model. It takes the preprocessed image in and outputs the location, size and probability of the classified components. The second model is the junction detection model. It takes in the preprocessed image and outputs the location, size and probability of the junction. The final models can be found [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main).
 
 As mentioned before there exist components that have very junction-like lines to them. This causes both models to 'detect' something at the same position, therefore postprocessing is needed. Postprocessing supresses the detections made by the junction model inside the borders of a detected component. It is for this reason that the component detection model has to be of a high standard in particular.
 
