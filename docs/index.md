@@ -21,41 +21,58 @@ layout: default
 **Course:** CS4245 - Seminar Computer Vision by Deep Learning
 
 # The idea
-introduction / explain possible usecase / to learn and for fun
+Sketching is one of the most effective ways to communicate ideas. It is a common practice in engineering, where engineers use sketches to communicate their ideas to other engineers, clients, or even to themselves. However, the process of converting these sketches into digital formats is time-consuming and error-prone. In this project, we aim to automate this process by developing a deep learning model that can detect and classify components and junctions in sketches of electronic circuits. 
 
-with this blogpost we hope to inspire other deep learning projects...
+Apart from the practical applications of this project, it also serves as a learning experience for us, and possibly for the reader. This blog post will document our journey from the idea above to the final product. We go over the challenger of working with real-world data, the importance of preprocessing and other intricacies of training deep learning models. We also aim to have fun while working on this project, as we are all passionate about computer vision and deep learning.
 
 # The data
-explain general data necessary and maybe provide some sources, explain why we decided to create own datasets
+Since we are looking to classify hand-drawn sketches of electronic circuits, we need a dataset that represents such skethes. However clean and well-annotated datasets for this task are hard to find. We did however find a dataset of hand-drawn electronic components [^1], which are obviously the building blocks of electronic circuits. There is still a difference between classifying a single components or detecting them as part of a circuit. For this reason we decided to create our own dataset using hand-drawn circuits. Since we also want to understand the connections between components, we have also created a dataset that can be used to detect junctions in circuits. Both datasets will be explained in more detail in the next sections.
 
 ## Components dataset
-explain data(set), why this data, link to dataset?
-labeling procedure
-show sample + labels
-explain which notebook used for reference
+As mentioned above, we found a dataset of hand-drawn electronic components. This dataset contains 15 classes of components of the arguably the most common components in electronic circuits. The dataset contains about 200 images per class. The next step was to use those to create a dataset that can be used to train a YOLO model, as we want to detect the components. To do this we generate images with the components randomly scattered across. To improve performance we add random lines and shapes to confuse the model, and we apply random noise. The labels are created from the original image of the separate components, however since those were always square with the components not covering the entire image, we had to adjust the labels to fit the new images. This was simply done by finding the edges of the components and adjusting the labels accordingly. After these steps a training sample looks as follows:
+
+![Components dataset sample](../assets/components_dataset_sample.jpg)
+
+The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
 ## Junctions dataset
 explain data(sets), why this data, link to dataset?
 labeling procedure
-show sample + labels
+show sample + labels (explain label convention with 0s and 1s)
 explain which notebook used for reference
 
 # Training
-which model, epochs, rotations (in)variance, other considerations
+For the training of the model we have chosen to use the [YOLOv5m](https://github.com/ultralytics/yolov5) model for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 GPUs in Kaggle. The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
+assets\components_model_performance.jpeg.jpeg
+![Components model performance](../assets/components_model_performance.jpeg)
+
+SAME FOR JUNCTIONS
 
 # Pipeline explanation
-image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
+<!-- image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
 
-explain why this pipeline and other considerations that we had (e.g. that we first wanted to delete components and then detect junctions)
+explain why this pipeline and other considerations that we had (e.g. that we first wanted to delete components and then detect junctions, also sliders for preprocessing came later since it was hard to have one set of values that just works)
 
 upload models to huggingface (or similar) and add links
+https://huggingface.co/Timdb/electronic-circuit-detection/tree/main
+^^ contains both models
 
-for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything
+for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything -->
+
+During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
+
+![Model Pipeline](../assets/parallelpipeline.png)
+
+In order for this pipeline to work the image should be a black or blue drawn circuit on a white page (with no background lines for best performance). This sketch then gets converted into a bitmap and inverted to a black background with white lines where everything above a threshold becomes black and below it becomes white, this value can be tuned depending on the input image.
+
+Then the first model in the pipeline is the component detection model. It takes the preprocessed image in and outputs the location, size and probability of the classified components. The second model is the junction detection model. It takes in the preprocessed image and outputs the location, size and probability of the junction. The final models can be found [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main).
+
+As mentioned before there exist components that have very junction-like lines to them. This causes both models to 'detect' something at the same position, therefore postprocessing is needed. Postprocessing supresses the detections made by the junction model inside the borders of a detected component. It is for this reason that the component detection model has to be of a high standard in particular.
 
 # Results
 couple sample images with results
 - one complicated circuit
-- sheet with one of every component?
+- sheet with one of every component
 
 then couple examples of poor performance
 - effect of poor preprocessing (show multiple side to side with diff preprocessing)
@@ -68,13 +85,21 @@ metrics
 what works, what doesnt, what would be the next step, how can it be improved
 
 leads to future improvements
-- yolo obb (oriented bounding box)
-- more?
+- yolo obb (oriented bounding box) https://docs.ultralytics.com/tasks/obb/
+- want a fully digitized version
+- more components
+- can only do 90 degree junctions
 
 # Closing
-Encourage to build on this work, all code is open source and so are the datasets (need to check if I can make components dataset public, maybe it's copyright lol) and models
+We encourage the reader to build on this work. All code is open-source and so are the datasets and models. We hope that this project can inspire other deep learning projects and that it can be used as a learning resource for those interested in computer vision and deep learning.
 
-Thank TA
+Lastly, we would like to thank our supervisor Xiangwei Shi for his guidance and support throughout this project.
+
+
+# References
+[^1]: https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components
+ 
+<!-- CAN USE STUFF BELOW TO LOOK UP HOW TO CREATE CERTAIN STYLES OF TEXT -->
 
 <!-- Text can be **bold**, _italic_, or ~~strikethrough~~.
 
