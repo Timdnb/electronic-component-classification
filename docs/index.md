@@ -74,15 +74,27 @@ https://huggingface.co/Timdb/electronic-circuit-detection/tree/main
 
 for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything -->
 
-During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
+In our project, we developed a specialized machine learning pipeline to enhance the accuracy of detecting and classifying components and junctions in electronic circuit sketches. The pipeline has undergone several iterations to optimize its functionality and address various challenges encountered along the way. The final pipeline consists of the following blocks:
+
+<!-- During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing: -->
 
 ![Model Pipeline](../assets/parallelpipeline.png)
 
-In order for this pipeline to work the image should be a black or blue drawn circuit on a white page (with no background lines for best performance). This sketch then gets converted into a bitmap and inverted to a black background with white lines where everything above a threshold becomes black and below it becomes white, this value can be tuned depending on the input image.
+1. **Data Preprocessing:** The initial sketch, ideally drawn in black or blue on a white page without background lines, is converted to a greyscale image. This image is then inverted to a black background with white lines, where pixel values above a certain threshold are turned black and those below are turned white. This threshold can be adjusted to suit different lighting conditions, enhancing the flexability of our preprocessing stage.
 
-Then the first model in the pipeline is the component detection model. It takes the preprocessed image in and outputs the location, size and probability of the classified components. The second model is the junction detection model. It takes in the preprocessed image and outputs the location, size and probability of the junction. The final models can be found [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main).
+2. **Component Detection Model:** The first model in our pipeline processes the preprocessed image to identify and locate electronic components. It outputs the position, size and detection probability of each component found in the image.
 
-As mentioned before there exist components that have very junction-like lines to them. This causes both models to 'detect' something at the same position, therefore postprocessing is needed. Postprocessing supresses the detections made by the junction model inside the borders of a detected component. It is for this reason that the component detection model has to be of a high standard in particular.
+3. **Junction Detection Model:** In parallel, the same preprocessed image is fed into our second model designed to detect junctions. This model outputs the positions, sizes, and probabilities of any detected junctions.
+
+4. **Data Postprocessing:** Given that some components posses junction-like features, both models occassionaly recognize the same feature, leading to overlapping detections. Our postprocessing stage addresses this by suppressing junction detections that occur within the boundaries of detected components, ensuring clear and distinct output labels.
+
+
+Initially, our pipeline only included a component detection model. However, to enhance its capabilities, we integrated a junction detection model. Adjusting to the challenge that some components mimic the appearance of junctions, we refined our models and added a postprocessing step to resolve these ambiguities.
+
+We also introduced adjustable sliders for preprocessing to handle diverse image conditions effectively, a feature added after recognizing the limitations of a one-size-fits-all threshold value.
+
+The final models are hosted on Hugging Face and can be accessed here: [Electronic Detection model](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main). These models can be used to run the inference jupyter notebook.
+
 
 # Results
 couple sample images with results
