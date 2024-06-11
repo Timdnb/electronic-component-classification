@@ -36,11 +36,7 @@ As mentioned above, we found a dataset of hand-drawn electronic components. This
 The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
 ## Junctions dataset
-explain data(sets), why this data, link to dataset?
-labeling procedure
-show sample + labels (explain label convention with 0s and 1s)
-explain which notebook used for reference
-The junctions dataset uses a different approach. Due to the simplicity of them, and the lack of available datasets, it was decided to generate a synthetic dataset.  
+The junctions dataset uses a different approach. Due to the simplicity of them, and the lack of available datasets, it was decided to generate a synthetic dataset. The process can be followed in juntion_synthetic_generator.ipynb
 
 There are 9 types of junctions (4 corners, 4 3-way junctions and 1 4-way junction). These junctions are labeled with 4 zeros or ones. It is a one if there is a line in the corresponding part of the junction. They order is: down, up, left, right. Therefore if a label is 0110, it means the junction joins up and left. To generate each junction, open-cv lines were generated according to the labels, with some randomisation on the angles. This is to imitate the human drawings, as most junctions will not be perfect 90 degrees. After generating the lines, gaussian blurr and noise is added. There is further randomisation by making the lines different thicknesses and by varying the size of the junctions from 100 to 300 pixels. Each Junction has been generated 1000 times, for a total of 9000 juntion images. 
 
