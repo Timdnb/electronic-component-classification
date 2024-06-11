@@ -40,14 +40,24 @@ explain data(sets), why this data, link to dataset?
 labeling procedure
 show sample + labels (explain label convention with 0s and 1s)
 explain which notebook used for reference
+The junctions dataset uses a different approach. Due to the simplicity of them, and the lack of available datasets, it was decided to generate a synthetic dataset.  
+
+There are 9 types of junctions (4 corners, 4 3-way junctions and 1 4-way junction). These junctions are labeled with 4 zeros or ones. It is a one if there is a line in the corresponding part of the junction. They order is: down, up, left, right. Therefore if a label is 0110, it means the junction joins up and left. To generate each junction, open-cv lines were generated according to the labels, with some randomisation on the angles. 
+
+
+
+
 
 # Training
-For the training of the model we have chosen to use the [YOLOv5m](https://github.com/ultralytics/yolov5) model for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 GPUs in Kaggle. The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
-assets\components_model_performance.jpeg.jpeg
+For the training of the model we have chosen to use the [YOLOv5m](https://github.com/ultralytics/yolov5) model for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 or a single P100 GPUs  in Kaggle.  
+
+The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
+<!-- assets\components_model_performance.jpeg.jpeg -->
 ![Components model performance](../assets/components_model_performance.jpeg)
 
-SAME FOR JUNCTIONS
-
+The model to detect the junctions was trained with the standard hyperparameters at an image size of 640x640 and batch size of 42. The model has been trained for 20 epochs, leading to the following performance on the validation set:
+<!-- assets\junctions_model_performance.jpeg.jpeg -->
+![Components model performance](../assets/junctions_model_performance.jpeg)
 # Pipeline explanation
 <!-- image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
 
