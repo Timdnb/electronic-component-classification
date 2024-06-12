@@ -20,8 +20,6 @@ layout: default
 
 **Course:** CS4245 - Seminar Computer Vision by Deep Learning
 
-![](https://i.imgur.com/Ac9czcr.png)
-
 # The idea
 Sketching is one of the most effective ways to communicate ideas. It is a common practice in engineering, where engineers use sketches to communicate their ideas to other engineers, clients, or even to themselves. However, the process of converting these sketches into digital formats is time-consuming and error-prone. In this project, we aim to automate this process by developing a deep learning model that can detect and classify components and junctions in sketches of electronic circuits. 
 
