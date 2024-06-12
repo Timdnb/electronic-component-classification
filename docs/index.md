@@ -36,17 +36,28 @@ As mentioned above, we found a dataset of hand-drawn electronic components. This
 The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
 ## Junctions dataset
-explain data(sets), why this data, link to dataset?
-labeling procedure
-show sample + labels (explain label convention with 0s and 1s)
-explain which notebook used for reference
+The junctions dataset uses a different approach. Due to the lack of available datasets, it was decided to generate our own dataset. To keep it simple we decided to only use junctions with 90 degree angles. The process can be followed in `juntion_synthetic_generator.ipynb` in the notebooks folder.
+
+Given the 90-degree angled junctions, there are 9 types (four corners, four 3-way junctions and one 4-way junction). These junctions are labeled with a four digit number of ones and zeros. A digit is a 1 if there is a line in the corresponding part of the junction and 0 otherwise. The order of the digits is: down, up, left, right. Therefore if a label is junction0110, it means the junction joins up and left. To generate each junction, openCV lines were generated according to the labels, with some randomisation on the angles. This is to imitate the human drawings, as most junctions will not be perfect 90 degree angles. After generating the lines, gaussian blur and noise is added. There is further randomisation by making the lines different thicknesses and by varying the size of the junctions from 100 to 300 pixels. Each junction has been generated 1000 times, for a total of 9000 juntion images. Some examples of junctions can be seen below.
+
+![Generated junctions](../assets/junctions_grid.jpg)
+
+After generating the junctions, a dataset generator similar to the one for the dataset was used. The only difference being that the extra random lines and shapes were removed, as they can sometimes resemble junctions. Finally, only the center portion of the junctions is labeled, such that the line crosses the bounding box. This ensures that the model will detect junctions that are part of a circuit, and not in isolation. In total, 2402 images were generated for training and 503 for validation. The dataset can be found [here](https://www.kaggle.com/datasets/miquelrulltrinidad/junctions).
+
+![Junctions train image](../assets/junctions_image.jpg)
+<!-- possible TODO: add bounding box labels -->
 
 # Training
-For the training of the model we have chosen to use the [YOLOv5m](https://github.com/ultralytics/yolov5) model for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 GPUs in Kaggle. The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
-assets\components_model_performance.jpeg.jpeg
+TODO: Explain metrics (mAP50 and 95)  
+For the training of the models we have chosen to use [YOLOv5m](https://github.com/ultralytics/yolov5) for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 or a single P100 GPUs  in Kaggle.  
+
+The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
+
 ![Components model performance](../assets/components_model_performance.jpeg)
 
-SAME FOR JUNCTIONS
+The model to detect the junctions was trained with the standard hyperparameters at an image size of 640x640 and batch size of 42. The model has been trained for 20 epochs, leading to the following performance on the validation set:
+
+![Junctions model performance](../assets/junctions_model_performance.jpeg)
 
 # Pipeline explanation
 <!-- image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
@@ -59,17 +70,29 @@ https://huggingface.co/Timdb/electronic-circuit-detection/tree/main
 
 for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything -->
 
-During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
+In our project, we developed a specialized machine learning pipeline to enhance the accuracy of detecting and classifying components and junctions in electronic circuit sketches. The pipeline has undergone several iterations to optimize its functionality and address various challenges encountered along the way. The final pipeline consists of the following blocks:
 
-![Model Pipeline](../assets/parallelpipeline.png)
+<!-- During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing: -->
 
-In order for this pipeline to work the image should be a black or blue drawn circuit on a white page (with no background lines for best performance). This sketch then gets converted into a bitmap and inverted to a black background with white lines where everything above a threshold becomes black and below it becomes white, this value can be tuned depending on the input image.
+![Model Pipeline](../assets/pipeline.png)
 
-Then the first model in the pipeline is the component detection model. It takes the preprocessed image in and outputs the location, size and probability of the classified components. The second model is the junction detection model. It takes in the preprocessed image and outputs the location, size and probability of the junction. The final models can be found [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main).
+1. **Data Preprocessing:** The initial sketch, ideally drawn in black or blue on a white page without background lines, is converted to a greyscale image. This image is then inverted to a black background with white lines, where pixel values above a certain threshold are turned black and those below are turned white. This threshold can be adjusted to suit different lighting conditions, enhancing the flexability of our preprocessing stage.
 
-As mentioned before there exist components that have very junction-like lines to them. This causes both models to 'detect' something at the same position, therefore postprocessing is needed. Postprocessing supresses the detections made by the junction model inside the borders of a detected component. It is for this reason that the component detection model has to be of a high standard in particular.
+2. **Component Detection Model:** The first model in our pipeline processes the preprocessed image to identify and locate electronic components. It outputs the position, size and detection probability of each component found in the image.
+
+3. **Junction Detection Model:** In parallel, the same preprocessed image is fed into our second model designed to detect junctions. This model outputs the positions, sizes, and probabilities of any detected junctions.
+
+4. **Data Postprocessing:** Given that some components posses junction-like features, both models occassionaly recognize the same feature, leading to overlapping detections. Our postprocessing stage addresses this by suppressing junction detections that occur within the boundaries of detected components, ensuring clear and distinct output labels.
+
+
+Initially, our pipeline only included a component detection model. However, to enhance its capabilities, we integrated a junction detection model. Adjusting to the challenge that some components mimic the appearance of junctions, we refined our models and added a postprocessing step to resolve these ambiguities.
+
+We also introduced adjustable sliders for preprocessing to handle diverse image conditions effectively, a feature added after recognizing the limitations of a one-size-fits-all threshold value.
+
+The final models are hosted on Hugging Face and can be accessed [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main). These models can also be used to run the `inference.ipynb` notebook, which goes over the steps individually.
 
 # Results
+TODO
 couple sample images with results
 - one complicated circuit
 - sheet with one of every component
@@ -82,22 +105,36 @@ metrics
 - model performance on test set?
 
 # Discussion / future work
-what works, what doesnt, what would be the next step, how can it be improved
+The results have shown promising performance in some cases, but a few issues are apparent too. One of the main problems comes from the preprocessing step, as this is a manual step where it sometimes is near impossible to extract the circuit properly. Therefore in the current state it is recommended to use full white paper and write with a dark colored pen.
 
-leads to future improvements
-- yolo obb (oriented bounding box) https://docs.ultralytics.com/tasks/obb/
-- want a fully digitized version
-- more components
-- can only do 90 degree junctions
+A second shortcoming follows from the detection of components. The model tends to have some trouble detecting the 'dc_volt_src_2', which is a volt source (small vertical line followed by empty space and then a long vertical line). The other components it is detecting quite consistently. 
+
+Another limitation regarding the component detection is that not all components can be detected under any rotation. More specifically, only the capacitors, diodes, inductors and resistors can have any rotation. The other components should be upright with respect to the camera direction.
+
+The junction detection model performs very well and rarely makes mistakes. However currently it can only detect junctions with 90 degree angles. This means that any circuit that does not adhere to this will not be completely labelled as intended.
+
+This brings us to the future improvements that directly follow from the points above:
+1. More robust and automatic extraction of circuit from image
+2. Better component detection model, able to consistently detect all components under any orientation
+3. Better junction detection model, able to detect any angle junction
+
+Apart from this, there are more parts that the program can improve on:
+
+4. Possibly a version of YOLO that has oriented bounding boxes [^2] can be used, this can lead to a more robust algorithm, that can have components under any angle, and not just 90 degree angles 
+5. The components model can detect the most used components, but not all possible components are included. This could be expanded.
+6. Currently the program only detects the components and junctions and returns a labelled image. The next step would be to take the labels and actually digitize the sketch of the electronic circuit.
+
+<!-- what works, what doesnt, what would be the next step, how can it be improved
+- want a fully digitized version -->
 
 # Closing
 We encourage the reader to build on this work. All code is open-source and so are the datasets and models. We hope that this project can inspire other deep learning projects and that it can be used as a learning resource for those interested in computer vision and deep learning.
 
 Lastly, we would like to thank our supervisor Xiangwei Shi for his guidance and support throughout this project.
 
-
 # References
 [^1]: https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components
+[^2]: https://docs.ultralytics.com/tasks/obb/
  
 <!-- CAN USE STUFF BELOW TO LOOK UP HOW TO CREATE CERTAIN STYLES OF TEXT -->
 
