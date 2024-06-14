@@ -33,6 +33,18 @@ As mentioned above, we found a dataset of hand-drawn electronic components. This
 
 ![Components dataset sample](https://i.imgur.com/HtsrY87)
 
+variation png:
+
+![Components dataset sample](https://i.imgur.com/HtsrY87.png)
+
+variation jpg:
+
+![Components dataset sample](https://i.imgur.com/HtsrY87.jpg)
+
+variation jpeg:
+
+![Components dataset sample](https://i.imgur.com/HtsrY87.jpg)
+
 The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
 ## Junctions dataset
