@@ -31,19 +31,7 @@ Since we are looking to classify hand-drawn sketches of electronic circuits, we 
 ## Components dataset
 As mentioned above, we found a dataset of hand-drawn electronic components. This dataset contains 15 classes of components of the arguably the most common components in electronic circuits. The dataset contains about 200 images per class. The next step was to use those to create a dataset that can be used to train a YOLO model, as we want to detect the components. To do this we generate images with the components randomly scattered across. To improve performance we add random lines and shapes to confuse the model, and we apply random noise. The labels are created from the original image of the separate components, however since those were always square with the components not covering the entire image, we had to adjust the labels to fit the new images. This was simply done by finding the edges of the components and adjusting the labels accordingly. After these steps a training sample looks as follows:
 
-![Components dataset sample](https://i.imgur.com/HtsrY87)
-
-variation png:
-
 ![Components dataset sample](https://i.imgur.com/HtsrY87.png)
-
-variation jpg:
-
-![Components dataset sample](https://i.imgur.com/HtsrY87.jpg)
-
-variation jpeg:
-
-![Components dataset sample](https://i.imgur.com/HtsrY87.jpg)
 
 The red boxes show the bounding boxes. As you see the bounding boxes are pretty good, but sometimes they are not perfect. This is because the labels were created automatically to save time. Regardless, the model will be able to learn from this data. The dataset can be found [here](https://www.kaggle.com/datasets/timdnb/components). The notebook that was used to train the model can be found in the repository in the notebooks folder as `component_dataset_generation.ipynb`
 
@@ -52,11 +40,11 @@ The junctions dataset uses a different approach. Due to the lack of available da
 
 Given the 90-degree angled junctions, there are 9 types (four corners, four 3-way junctions and one 4-way junction). These junctions are labeled with a four digit number of ones and zeros. A digit is a 1 if there is a line in the corresponding part of the junction and 0 otherwise. The order of the digits is: down, up, left, right. Therefore if a label is junction0110, it means the junction joins up and left. To generate each junction, openCV lines were generated according to the labels, with some randomisation on the angles. This is to imitate the human drawings, as most junctions will not be perfect 90 degree angles. After generating the lines, gaussian blur and noise is added. There is further randomisation by making the lines different thicknesses and by varying the size of the junctions from 100 to 300 pixels. Each junction has been generated 1000 times, for a total of 9000 juntion images. Some examples of junctions can be seen below.
 
-![Generated junctions](../assets/junctions_grid.jpg)
+![Generated junctions](https://i.imgur.com/dg05O4t.jpg)
 
 After generating the junctions, a dataset generator similar to the one for the dataset was used. The only difference being that the extra random lines and shapes were removed, as they can sometimes resemble junctions. Finally, only the center portion of the junctions is labeled, such that the line crosses the bounding box. This ensures that the model will detect junctions that are part of a circuit, and not in isolation. In total, 2402 images were generated for training and 503 for validation. The dataset can be found [here](https://www.kaggle.com/datasets/miquelrulltrinidad/junctions).
 
-![Junctions train image](../assets/junctions_image.jpg)
+![Junctions train image](https://imgur.com/i49kIoc.jpg)
 <!-- possible TODO: add bounding box labels -->
 
 # Training
@@ -65,11 +53,11 @@ For the training of the models we have chosen to use [YOLOv5m](https://github.co
 
 The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
 
-![Components model performance](../assets/components_model_performance.jpeg)
+![Components model performance](https://imgur.com/gY9yswO.jpeg)
 
 The model to detect the junctions was trained with the standard hyperparameters at an image size of 640x640 and batch size of 42. The model has been trained for 20 epochs, leading to the following performance on the validation set:
 
-![Junctions model performance](../assets/junctions_model_performance.jpeg)
+![Junctions model performance](https://imgur.com/bEfHqq4.jpeg)
 
 # Pipeline explanation
 <!-- image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
@@ -86,7 +74,7 @@ In our project, we developed a specialized machine learning pipeline to enhance 
 
 <!-- During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing: -->
 
-![Model Pipeline](../assets/pipeline.png)
+![Model Pipeline](https://imgur.com/ZnRoW7G.png)
 
 1. **Data Preprocessing:** The initial sketch, ideally drawn in black or blue on a white page without background lines, is converted to a greyscale image. This image is then inverted to a black background with white lines, where pixel values above a certain threshold are turned black and those below are turned white. This threshold can be adjusted to suit different lighting conditions, enhancing the flexability of our preprocessing stage.
 
