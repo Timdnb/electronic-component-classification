@@ -61,7 +61,7 @@ for testing and investigation (of code) can reference to inference.ipynb, howeve
 
 During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing:
 
-![Model Pipeline](../assets/parallelpipeline.png)
+![Model Pipeline](../assets/pipe.png)
 
 In order for this pipeline to work the image should be a black or blue drawn circuit on a white page (with no background lines for best performance). This sketch then gets converted into a bitmap and inverted to a black background with white lines where everything above a threshold becomes black and below it becomes white, this value can be tuned depending on the input image.
 
