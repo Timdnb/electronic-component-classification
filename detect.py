@@ -9,6 +9,11 @@ from huggingface_hub import hf_hub_download
 import pandas as pd
 from tqdm import tqdm
 
+#This section is needed when running on windows
+import pathlib
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
+
 if __name__ == '__main__':
     parset = argparse.ArgumentParser(description='Detect components and junctions in image')
     parset.add_argument('--img-path', type=str, help='Path to image', required=True)
@@ -36,12 +41,12 @@ if __name__ == '__main__':
 
     # Download components model and run it
     c_hf_model = hf_hub_download('Timdb/electronic-circuit-detection', 'components.pt')
-    c_model = torch.hub.load('ultralytics/yolov5', 'custom', c_hf_model, verbose=False)
+    c_model = torch.hub.load('ultralytics/yolov5', 'custom', c_hf_model, verbose=False, force_reload=True)
     c_model.eval()
 
     # Download junctions model and run it
     j_hf_model = hf_hub_download('Timdb/electronic-circuit-detection', 'junctions.pt')
-    j_model = torch.hub.load('ultralytics/yolov5', 'custom', j_hf_model, verbose=False)
+    j_model = torch.hub.load('ultralytics/yolov5', 'custom', j_hf_model, verbose=False, force_reload=True)
     j_model.eval()
 
     print("Adjust the sliders to apply transformations to the image. Press 'Enter' to continue.\n")
