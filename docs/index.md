@@ -123,6 +123,16 @@ The second example of poor performance is due to the circuit not adhering to the
   </div>
 </div>
 
+<div style="display: flex; justify-content: center; align-items: stretch; gap: 20px;">
+  <div style="width: 48%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+    <img src="https://imgur.com/k17N1ju.png" alt="Tilted Circuit Diagram" style="max-height: 100%; width: auto; object-fit: cover;">
+  </div>
+  <div style="width: 48%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+    <img src="https://imgur.com/HcldKjL.png" alt="Circuit Diagram 2" style="max-height: 100%; width: auto; object-fit: cover;">
+  </div>
+</div>
+
+
 <!-- couple sample images with results
 - one complicated circuit
 - sheet with one of every component
