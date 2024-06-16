@@ -2,20 +2,6 @@
 layout: default
 ---
 
-<!-- PENALTIES FOR BLOG
-- No results, or not enough motivation for why there are no results
-- Not enough effort shown
-- Results are not explained
-- Results are inconsistent and not motivated
-- Insufficient "computer vision" alignment
-- Unclear why an experiment is done (what question is answered by it, and why is this question interesting)
-
-- The text is not stand-alone; it's not peer understandable.
-- Using a term before defining/motivating it.
-- Unclear logical reasoning step.
-- Inconsistent use of terminology.
-- Too much unnecessary detail. -->
-
 **By:** Tim den Blanken, Felipe Bononi Bello, Miquel Rull Trinidad
 
 **Course:** CS4245 - Seminar Computer Vision by Deep Learning
@@ -48,8 +34,7 @@ After generating the junctions, a dataset generator similar to the one for the d
 <!-- possible TODO: add bounding box labels -->
 
 # Training
-TODO: Explain metrics (mAP50 and 95)  
-For the training of the models we have chosen to use [YOLOv5m](https://github.com/ultralytics/yolov5) for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 or a single P100 GPUs  in Kaggle.  
+For the training of the models we have chosen to use YOLOv5m[^2] for its simplicity and well-proven performance. Two models were trained separately utilizing 2 T4 or a single P100 GPUs  in Kaggle.  
 
 The model to detect components was trained with the standard hyperparameters at an image size of 640x640 and batch size of 32. The model has been trained for 25 epochs, leading to the following performance on the validation set:
 
@@ -59,20 +44,10 @@ The model to detect the junctions was trained with the standard hyperparameters 
 
 ![Junctions model performance](https://imgur.com/bEfHqq4.jpeg)
 
+Both images show performance in multiple metrics. The 'P' refers to precision, the 'R' refers to recall, the 'mAP50' refers to mean average precision at an IoU value of 50% and the 'mAP50-95' measures the mean average precision across IoU thresholds ranging from 0.5 to 0.95. For more indepth explanation, visit [^3].
+
 # Pipeline explanation
-<!-- image -> data preprocessing -> through model 1 -> through model 2 -> data post processing -> labeled image (for now, ideally digital version)
-
-explain why this pipeline and other considerations that we had (e.g. that we first wanted to delete components and then detect junctions, also sliders for preprocessing came later since it was hard to have one set of values that just works)
-
-upload models to huggingface (or similar) and add links
-https://huggingface.co/Timdb/electronic-circuit-detection/tree/main
-^^ contains both models
-
-for testing and investigation (of code) can reference to inference.ipynb, however in the end we should make a .py file that does everything -->
-
 In our project, we developed a specialized machine learning pipeline to enhance the accuracy of detecting and classifying components and junctions in electronic circuit sketches. The pipeline has undergone several iterations to optimize its functionality and address various challenges encountered along the way. The final pipeline consists of the following blocks:
-
-<!-- During the duration of the project the pipeline has been expanded and changed to best fit the goal. The first iteration only made use of a component detection model, after which we thought to add junction labelling capability to the model. This however did not work as expected, as some of the components have junction-like parts to them which causes confusion. So to be able to fulfill the goal of detecting and classifying components and junctions in sketches of electronic circuits, we have created the following pipeline that includes preprocessing, two detection models and postprocessing: -->
 
 ![Model Pipeline](https://imgur.com/ZnRoW7G.png)
 
@@ -92,41 +67,26 @@ We also introduced adjustable sliders for preprocessing to handle diverse image 
 The final models are hosted on Hugging Face and can be accessed [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main). These models can also be used to run the `inference.ipynb` notebook, which goes over the steps individually.
 
 # Results
-
-In order to be able to showcase the performance of the created models we have created handdrawn circuits of which a few are portrayed in this section. A sheet with all individual electronical components, an AC-to-DC converter and some example circuits showing examples of poor performance due to preprocessing mistakes.
+In order to be able to showcase the performance of the created models we have sketched many circuits of which a few are portrayed in this section. These examples include: a sheet with all individual electronic component, an AC-to-DC converter and some other examples, which are explained a bit further in this section.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
   <img src="https://imgur.com/nqDnhg5.jpeg" alt="Electrical components sheet" style="width: 45%; height: auto; margin: 5px;">
   <img src="https://imgur.com/OKgyT7q.png" alt="AC-to-DC converter" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
-Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallucinate and 'detect' two components in the bottom left corner. Here one can also see that the model is not great at distinguishing between the ammeter and the curr_src as the classification is not robust to orientation changes. 
+Next we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component detection model to 'hallucinate' and detect two components in the bottom left corner. Here one can also see that the model is not great at distinguishing between the ammeter and the curr_src as the classification is not robust to orientation changes. 
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
   <img src="https://imgur.com/TQmGTkx.png" alt="Model hallucinations" style="width: 45%; height: auto; margin: 5px;">
   <img src="https://imgur.com/Hr9iehN.png" alt="Too low contrast value" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
-The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. Where one can see that the ground component, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src. For visualization purposes the tilted circuit (left) is tilted back.
+The second example of poor performance is due to the circuit not adhering to the recommended standards. In this case the image is rotated by 90 degrees (please refer to the orientation of the labels to understand the rotation). Here, one can see that the component depicting ground, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src. For visualization purposes the tilted circuit (left) is rotated to its expected orientation (right).
 
 <div style="display: flex; flex-wrap: wrap; justify-mostly; align-items: center;">
   <img src="https://imgur.com/pOQhTJm.png" alt="Tilted circuit" style="width: 45%; height: auto; margin: 5px;">
   <img src="https://imgur.com/IMZETX6.png" alt="Non-tilted circuit" style="width: 45%; height: auto; margin: 5px;">
 </div>
-
-
-
-
-<!-- couple sample images with results
-- one complicated circuit
-- sheet with one of every component
-
-then couple examples of poor performance
-- effect of poor preprocessing (show multiple side to side with diff preprocessing)
-- effect when circuit does not adhere to standards (90 deg turns)
-
-metrics
-- model performance on test set? -->
 
 # Discussion / future work
 The results have shown promising performance in some cases, but a few issues are apparent too. One of the main problems comes from the preprocessing step, as this is a manual step where it sometimes is near impossible to extract the circuit properly. Therefore in the current state it is recommended to use full white paper and write with a dark colored pen.
@@ -144,12 +104,9 @@ This brings us to the future improvements that directly follow from the points a
 
 Apart from this, there are more parts that the program can improve on:
 
-4. Possibly a version of YOLO that has oriented bounding boxes [^2] can be used, this can lead to a more robust algorithm, that can have components under any angle, and not just 90 degree angles 
+4. Possibly a version of YOLO that has oriented bounding boxes [^4] can be used, this can lead to a more robust algorithm, that can have components under any angle, and not just 90 degree angles 
 5. The components model can detect the most used components, but not all possible components are included. This could be expanded.
 6. Currently the program only detects the components and junctions and returns a labelled image. The next step would be to take the labels and actually digitize the sketch of the electronic circuit.
-
-<!-- what works, what doesnt, what would be the next step, how can it be improved
-- want a fully digitized version -->
 
 # Closing
 We encourage the reader to build on this work. All code is open-source and so are the datasets and models. We hope that this project can inspire other deep learning projects and that it can be used as a learning resource for those interested in computer vision and deep learning.
@@ -158,126 +115,6 @@ Lastly, we would like to thank our supervisor Xiangwei Shi for his guidance and 
 
 # References
 [^1]: https://www.kaggle.com/datasets/moodrammer/handdrawn-circuit-schematic-components
-[^2]: https://docs.ultralytics.com/tasks/obb/
- 
-<!-- CAN USE STUFF BELOW TO LOOK UP HOW TO CREATE CERTAIN STYLES OF TEXT -->
-
-<!-- Text can be **bold**, _italic_, or ~~strikethrough~~.
-
-[Link to another page](./another-page.html).
-
-There should be whitespace between paragraphs.
-
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
-
-# Header 1
-
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
-
-## Header 2
-
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
-
-### Header 3
-
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
-
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
-
-#### Header 4
-
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-
-##### Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-``` -->
+[^2]: https://github.com/ultralytics/yolov5
+[^3]: https://towardsdatascience.com/breaking-down-mean-average-precision-map-ae462f623a52
+[^4]: https://docs.ultralytics.com/tasks/obb/
