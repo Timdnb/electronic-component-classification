@@ -107,30 +107,14 @@ Now we will show a few examples of bad performance due to preprocessing mistakes
   <img src="https://imgur.com/Hr9iehN.png" alt="Too low contrast value" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
-The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. Where one can see that the ground component, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src.
+The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. Where one can see that the ground component, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src. For visualization purposes the tilted circuit (left) is tilted back.
 
 <div style="display: flex; flex-wrap: wrap; justify-mostly; align-items: center;">
-  <img src="https://imgur.com/k17N1ju.png" alt="Tilted circuit" style="width: 45%; height: auto; margin: 5px;">
-  <img src="https://imgur.com/HcldKjL.png" alt="Non-tilted circuit" style="width: 45%; height: auto; margin: 5px;">
+  <img src="https://imgur.com/pOQhTJm.png" alt="Tilted circuit" style="width: 45%; height: auto; margin: 5px;">
+  <img src="https://imgur.com/IMZETX6.png" alt="Non-tilted circuit" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px; height: 500px;">
-  <div style="width: 48%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <img src="https://imgur.com/k17N1ju.png" alt="Circuit Diagram 1" style="height: 100%; width: auto; object-fit: contain;">
-  </div>
-  <div style="width: 48%; height: 100%; display: flex; align-items: center; justify-content: center;">
-    <img src="https://imgur.com/HcldKjL.png" alt="Circuit Diagram 2" style="height: 100%; width: auto; object-fit: contain;">
-  </div>
-</div>
 
-<div style="display: flex; justify-content: center; align-items: stretch; gap: 20px;">
-  <div style="width: 48%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-    <img src="https://imgur.com/k17N1ju.png" alt="Tilted Circuit Diagram" style="max-height: 100%; width: auto; object-fit: cover;">
-  </div>
-  <div style="width: 48%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-    <img src="https://imgur.com/HcldKjL.png" alt="Circuit Diagram 2" style="max-height: 100%; width: auto; object-fit: cover;">
-  </div>
-</div>
 
 
 <!-- couple sample images with results
