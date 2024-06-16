@@ -95,19 +95,19 @@ The final models are hosted on Hugging Face and can be accessed [here](https://h
 
 In order to be able to showcase the performance of the created models we have created handdrawn circuits of which a few are portrayed in this section. A sheet with all individual electronical components, an AC-to-DC converter and some example circuits showing examples of poor performance due to preprocessing mistakes. 
 
-![Electrical components sheet](https://imgur.com/nqDnhg5.jpeg)
+![Electrical components sheet](https://imgur.com/nqDnhg5.jpeg){:height="200px" width="300px"}
 
 
-![AC-to-DC converter](https://imgur.com/bipLNRV.png)
+![AC-to-DC converter](https://imgur.com/bipLNRV.png){:height="200px" width="300px"}
 
 Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallcinate and 'detect' two components in the bottom left corner.
 
-![Model hallucinations](https://imgur.com/jjpxZxn.png)
-![Too low contrast value](https://imgur.com/oF8xq6E.png)
+![Model hallucinations](https://imgur.com/jjpxZxn.png){:height="200px" width="300px"}
+![Too low contrast value](https://imgur.com/oF8xq6E.png){:height="200px" width="300px"}
 
 The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. Where on can see that the ground component, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src. 
-![Tilted circuit](https://imgur.com/k17N1ju.png)
-![Non-tilted circuit](https://imgur.com/HcldKjL.png)
+![Tilted circuit](https://imgur.com/k17N1ju.png){:height="200px" width="300px"}
+![Non-tilted circuit](https://imgur.com/HcldKjL.png){:height="200px" width="300px"}
 
 <!-- couple sample images with results
 - one complicated circuit
