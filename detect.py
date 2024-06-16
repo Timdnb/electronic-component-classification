@@ -10,9 +10,9 @@ import pandas as pd
 from tqdm import tqdm
 
 #This section is needed when running on windows
-import pathlib
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+# import pathlib
+# temp = pathlib.PosixPath
+# pathlib.PosixPath = pathlib.WindowsPath
 
 if __name__ == '__main__':
     parset = argparse.ArgumentParser(description='Detect components and junctions in image')
