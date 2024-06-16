@@ -22,31 +22,37 @@ Penalties for storyline:
 - Not clear what experimental questions you ask that demonstrate to solve problem and consequences
 
 WHY INTERESTING: What is the general setting/application. Why should people care.
-- The user will be able to take a photo of a sketched electronic circuit and pass it through a program to locate the components and junctions
-- These components and junctions can then be replaced by neat digital versions
-- Ultimately this will allow translation of sketched electronic circuits to prototypes in a digital form
+<!-- - The user will be able to take a photo of a sketched electronic circuit and pass it through a program to locate the components and junctions -->
+- It is important to be able to recognise hand drawn circuits during prototyping and education
+- The drawn components and junctions can then be replaced by neat digital versions. Ultimately this will allow translation of sketched electronic circuits to digital form
 
 HOW DONE NOW: The typical approach(es) to the setting in (1)
 - Currently there is no way to digitize electronic circuit sketches
-- Some models exist that have been trained to detect the components of a hand-drawn circuit
+- Some models exist that have been trained to detect the components of hand-drawn circuits
 - A subset of these also detect line junctions
 
 WHAT IS MISSING: What’s the problem in (2), and what consequences does this have.
-- Lines are currently NOT being detected
+<!-- - Lines are currently NOT being detected
 - There is NO knowlege about how components are connected to each other
 - The current classifiers merely classify the components and junctions
-- This means the circuit needs to be digitally created by hand anyways
+- This means the circuit needs to be digitally created by hand anyways -->
+
+- Current classifiers merely classify components and are not ready to be transformed into digital images
+
 
 PROPOSED SOLUTION: What do you do, and why does it solve the problem in (3)
-- To solve the problem we will create custom datasets for components and junctions
-- We will train eiter one classifier using YOLO to detect both components and junctions or two classifiers, one for components and one for junctions in series
-- We will also try to draw connection lines between the components and junctions.
+- To solve the problem we will create custom datasets for components and junctions. The junctions will have orientation encoded in the labels to facilitate future digitalisation
+- We will train two classifiers, one for components and one for junctions
+
+<!-- - We will also try to draw connection lines between the components and junctions. -->
 
 EXPERIMENTAL QUESTIONS: How do you evaluate experimentally that (4) solves the problem in (2) and it’s consequences in (3).
-- The solution is succesful if it can detect and classify all components and junctions
+<!-- - The solution is succesful if it can detect and classify all components and junctions
 - Additionally the components and junctions are replaced by digital counterparts
 - If time and resources allow, the components are connected with lines digitally too
-- Creating neat and complete digital versions of electronic ciruict sketches
+- Creating neat and complete digital versions of electronic ciruict sketches -->
+- What is the performance on detecting and classifying components and junctions in terms of accuracy and IoU on an individual basis?
+- How do both detectors perform when working in series in a pipeline?
 
 ### Note from Tim
 almost done imo, cleaned it up a bit and added a few things. the only thing we might want to change is better emphasize that our first goal is to classify components and junctions and that if we have time we will also create a digital version
