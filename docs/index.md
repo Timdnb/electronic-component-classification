@@ -97,14 +97,14 @@ In order to be able to showcase the performance of the created models we have cr
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
   <img src="https://imgur.com/nqDnhg5.jpeg" alt="Electrical components sheet" style="width: 45%; height: auto; margin: 5px;">
-  <img src="https://imgur.com/bipLNRV.png" alt="AC-to-DC converter" style="width: 45%; height: auto; margin: 5px;">
+  <img src="https://imgur.com/OKgyT7q.png" alt="AC-to-DC converter" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
 Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallucinate and 'detect' two components in the bottom left corner.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
   <img src="https://imgur.com/jjpxZxn.png" alt="Model hallucinations" style="width: 45%; height: auto; margin: 5px;">
-  <img src="https://imgur.com/oF8xq6E.png" alt="Too low contrast value" style="width: 45%; height: auto; margin: 5px;">
+  <img src="https://imgur.com/T3MpGMP.png" alt="Too low contrast value" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
 The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. Where one can see that the ground component, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src.
