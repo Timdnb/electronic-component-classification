@@ -36,12 +36,12 @@ if __name__ == '__main__':
 
     # Download components model and run it
     c_hf_model = hf_hub_download('Timdb/electronic-circuit-detection', 'components.pt')
-    c_model = torch.hub.load('ultralytics/yolov5', 'custom', c_hf_model, verbose=False)
+    c_model = torch.hub.load('ultralytics/yolov5', 'custom', c_hf_model, verbose=False, force_reload=True)
     c_model.eval()
 
     # Download junctions model and run it
     j_hf_model = hf_hub_download('Timdb/electronic-circuit-detection', 'junctions.pt')
-    j_model = torch.hub.load('ultralytics/yolov5', 'custom', j_hf_model, verbose=False)
+    j_model = torch.hub.load('ultralytics/yolov5', 'custom', j_hf_model, verbose=False, force_reload=True)
     j_model.eval()
 
     print("Adjust the sliders to apply transformations to the image. Press 'Enter' to continue.\n")
