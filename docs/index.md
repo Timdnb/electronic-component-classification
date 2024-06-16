@@ -91,23 +91,25 @@ We also introduced adjustable sliders for preprocessing to handle diverse image 
 
 The final models are hosted on Hugging Face and can be accessed [here](https://huggingface.co/Timdb/electronic-circuit-detection/tree/main). These models can also be used to run the `inference.ipynb` notebook, which goes over the steps individually.
 
+
 # Results
 
-In order to be able to showcase the performance of the created models we have created handdrawn circuits of which a few are portrayed in this section. A sheet with all individual electronical components, an AC-to-DC converter and some example circuits showing examples of poor performance due to preprocessing mistakes. 
+In order to be able to showcase the performance of the created models we have created handdrawn circuits of which a few are portrayed in this section. A sheet with all individual electronical components, an AC-to-DC converter and some example circuits showing examples of poor performance due to preprocessing mistakes.
 
-![Electrical components sheet](https://imgur.com/nqDnhg5.jpeg){:height="200px" width="300px"}
+<img src="https://imgur.com/nqDnhg5.jpeg" alt="Electrical components sheet" style="max-width: 100%; height: auto;">
 
+<img src="https://imgur.com/bipLNRV.png" alt="AC-to-DC converter" style="max-width: 100%; height: auto;">
 
-![AC-to-DC converter](https://imgur.com/bipLNRV.png){:height="200px" width="300px"}
+Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image, the contrast value in the preprocessing is not set high enough, which causes the component models to hallucinate and 'detect' two components in the bottom left corner.
 
-Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallcinate and 'detect' two components in the bottom left corner.
+<img src="https://imgur.com/jjpxZxn.png" alt="Model hallucinations" style="max-width: 100%; height: auto;">
+<img src="https://imgur.com/oF8xq6E.png" alt="Too low contrast value" style="max-width: 100%; height: auto;">
 
-![Model hallucinations](https://imgur.com/jjpxZxn.png){:height="200px" width="300px"}
-![Too low contrast value](https://imgur.com/oF8xq6E.png){:height="200px" width="300px"}
+The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. One can see that the ground component, the ammeter, and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src.
 
-The second example of poor performance is due to the circuit not adhering to the standards and being tilted by 90 degrees. Where on can see that the ground component, the ammeter and the battery are not detected correctly. When the ammeter is tilted by 90 degrees it is often mistaken for the dc_volt_src or the curr_src. 
-![Tilted circuit](https://imgur.com/k17N1ju.png){:height="200px" width="300px"}
-![Non-tilted circuit](https://imgur.com/HcldKjL.png){:height="200px" width="300px"}
+<img src="https://imgur.com/k17N1ju.png" alt="Tilted circuit" style="max-width: 100%; height: auto;">
+<img src="https://imgur.com/HcldKjL.png" alt="Non-tilted circuit" style="max-width: 100%; height: auto;">
+
 
 <!-- couple sample images with results
 - one complicated circuit
