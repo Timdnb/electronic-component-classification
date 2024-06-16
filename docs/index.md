@@ -103,7 +103,7 @@ In order to be able to showcase the performance of the created models we have cr
 Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallucinate and 'detect' two components in the bottom left corner.
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
-  <img src="https://imgur.com/h15pn7Y.png" alt="Model hallucinations" style="width: 45%; height: auto; margin: 5px;">
+  <img src="https://imgur.com/TQmGTkx.png" alt="Model hallucinations" style="width: 45%; height: auto; margin: 5px;">
   <img src="https://imgur.com/Hr9iehN.png" alt="Too low contrast value" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
