@@ -114,6 +114,14 @@ The second example of poor performance is due to the circuit not adhering to the
   <img src="https://imgur.com/HcldKjL.png" alt="Non-tilted circuit" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px; height: 500px;">
+  <div style="width: 48%; height: 100%; display: flex; align-items: center; justify-content: center;">
+    <img src="https://imgur.com/k17N1ju.png" alt="Circuit Diagram 1" style="height: 100%; width: auto; object-fit: contain;">
+  </div>
+  <div style="width: 48%; height: 100%; display: flex; align-items: center; justify-content: center;">
+    <img src="https://imgur.com/HcldKjL.png" alt="Circuit Diagram 2" style="height: 100%; width: auto; object-fit: contain;">
+  </div>
+</div>
 
 <!-- couple sample images with results
 - one complicated circuit
