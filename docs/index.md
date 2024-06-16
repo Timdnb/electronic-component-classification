@@ -100,7 +100,7 @@ In order to be able to showcase the performance of the created models we have cr
   <img src="https://imgur.com/OKgyT7q.png" alt="AC-to-DC converter" style="width: 45%; height: auto; margin: 5px;">
 </div>
 
-Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallucinate and 'detect' two components in the bottom left corner.
+Now we will show a few examples of bad performance due to preprocessing mistakes. In the first image the constrast value in the preprocessing is not set high enough, which causes the component models to hallucinate and 'detect' two components in the bottom left corner. Here one can also see that the model is not great at distinguishing between the ammeter and the curr_src as the classification is not robust to orientation changes. 
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
   <img src="https://imgur.com/TQmGTkx.png" alt="Model hallucinations" style="width: 45%; height: auto; margin: 5px;">
